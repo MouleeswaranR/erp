@@ -1,13 +1,39 @@
 import { useState } from 'react'
-
+import {BrowserRouter,Routes,Route, Navigate} from "react-router-dom";
 import './App.css'
+import Login from './pages/Login';
+import AdminDashBoard from './pages/AdminDashBoard';
+import EmployeeDashBoard from './pages/EmployeeDashBoard';
+import PrivateRoutes from './utils/PrivateRoutes';
+import RoleBasedRoutes from './utils/RoleBasedRoutes';
+import AdminSummary from './components/dashboard/AdminSummary';
+import DepartmentList from './components/department/DepartmentList';
 
 function App() {
   
 
-  return (
-  <div className='text-3xl text-red-500'>Main page</div>
-  )
+      return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/admin-dashboard"></Navigate>}></Route>
+        <Route path="/login" element={<Login/>}></Route>
+        <Route path="/admin-dashboard" element={
+          <PrivateRoutes>
+            <RoleBasedRoutes requiredRole={["admin"]}>
+            <AdminDashBoard/>
+            </RoleBasedRoutes>             
+          </PrivateRoutes>
+         
+      
+      }>
+        <Route index element={<AdminSummary/>}></Route>
+        <Route path="/admin-dashboard/departments" element={<DepartmentList/>}></Route>
+
+      </Route>
+        <Route path="/employee-dashboard" element={<EmployeeDashBoard/>}></Route>
+
+      </Routes>
+    </BrowserRouter>  )
 }
 
 export default App

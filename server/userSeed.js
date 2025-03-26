@@ -5,7 +5,7 @@ const userRegister=async()=>{
      connectToDataBase();
     try {
         const hash=await bcrypt.hash("admin",10);
-    const newUser=new User({
+    const newUser=await User.create({
         name:"admin",
         email:'admin@gmail.com',
         password:hash,
@@ -13,6 +13,8 @@ const userRegister=async()=>{
         profileImage:"/image"
     })
     await newUser.save();
+    console.log("created");
+    
     } catch (error) {
        console.error(error);
         

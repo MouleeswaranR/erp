@@ -71,11 +71,9 @@ export const getEmployees=async(req,res)=>{
 
 export const getEmployee=async(req,res)=>{
     const{id}=req.params;
-    console.log(id);
     
     try{
         const employee = await Employee.findById({_id:id}).populate('userId',{password:0}).populate('department')
-        console.log(employee);
         
         return res.status(200).json({success: true, employee})
     }catch(error){
@@ -107,5 +105,17 @@ export const updateEmployee=async(req,res)=>{
         return res.status(200).json({success:true,message:"updated details"});
     } catch (error) {
         return res.status(500).json({success: false, error: "update employee server error"})
+    }
+}
+
+export const fetchEmployeesByDepId=async(req,res)=>{
+    const{id}=req.params;
+    
+    try{
+        const employees = await Employee.find({department:id}).populate('userId',{password:0}).populate('department')
+        
+        return res.status(200).json({success: true, employees})
+    }catch(error){
+        return res.status(500).json({success: false, error: "get employee by department id server error"})
     }
 }

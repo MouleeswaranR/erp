@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAuth } from '../context/authContext'
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import AdminSidebar from '../components/dashboard/AdminSidebar';
 import Navbar from '../components/dashboard/Navbar';
 import AdminSummary from '../components/dashboard/AdminSummary';

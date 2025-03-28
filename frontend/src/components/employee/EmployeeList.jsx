@@ -6,6 +6,7 @@ import axios from 'axios';
 const EmployeeList = () => {
     const[employees,setEmployees]=useState([]);
     const[empLoading,setEmpLoading]=useState(false);
+    const[filteredEmployees,setFilteredEmployees]=useState([])
     useEffect(()=> {
         const fetchEmployees = async () => {
           setEmpLoading(true)
@@ -17,7 +18,6 @@ const EmployeeList = () => {
             })
             if(response.data.success){
               let sno = 1;
-              console.log(response.data)
               const data = await response.data.employees.map((emp) => (
                 {
                   _id: emp._id,
@@ -30,6 +30,7 @@ const EmployeeList = () => {
                 }
               ));
               setEmployees(data);
+              setFilteredEmployees(data)
             }
           }catch(error){
             if(error.response && error.response.data.success){
@@ -42,6 +43,12 @@ const EmployeeList = () => {
     
         fetchEmployees();
       }, []);
+      const handleFilter=(e)=>{
+        const records=employees.filter((emp)=>(
+          emp.name.toLowerCase().includes(e.target.value.toLowerCase())
+        ))
+        setFilteredEmployees(records);
+      }
   return (
     <div className='p-6'>
          <div className='text-center'>
@@ -50,8 +57,9 @@ const EmployeeList = () => {
        <div className='flex justify-between items-center'>
         <input 
         type="text" 
-        placeholder='Search By Dep Name' 
+        placeholder='Search By  Name' 
         className='px-4 py-0.5'
+        onChange={handleFilter}
         />
         <Link 
         to="/admin-dashboard/add-employee" 
@@ -60,8 +68,8 @@ const EmployeeList = () => {
           Add New Employee
         </Link>
        </div>
-       <div className='mt-2'>
-        <DataTable columns={columns} data={employees}/>
+       <div className='mt-6'>
+        <DataTable columns={columns} data={filteredEmployees} pagination/>
        </div>
     </div>
   )

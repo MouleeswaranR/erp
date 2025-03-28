@@ -3,6 +3,7 @@ import Employee from "../models/Employee.js"
 import bcrypt from "bcrypt";
 import multer, { diskStorage } from "multer";
 import path from "path";
+import Department from "../models/Department.js";
 
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
@@ -65,5 +66,46 @@ export const getEmployees=async(req,res)=>{
         return res.status(200).json({success: true, employees})
     }catch(error){
         return res.status(500).json({success: false, error: "get employee server error"})
+    }
+}
+
+export const getEmployee=async(req,res)=>{
+    const{id}=req.params;
+    console.log(id);
+    
+    try{
+        const employee = await Employee.findById({_id:id}).populate('userId',{password:0}).populate('department')
+        console.log(employee);
+        
+        return res.status(200).json({success: true, employee})
+    }catch(error){
+        return res.status(500).json({success: false, error: "get employee server error"})
+    }
+}
+
+
+export const updateEmployee=async(req,res)=>{
+    try {
+       const {id}=req.params;
+        const{name,maritalStatus,designation,department,salary}=req.body;
+        const employee=await Employee.findById({_id:id})
+        if(!employee){
+            return res.status(400).json({success: false, error: " no employee found"})
+        }
+        const user=await User.findById({_id:employee.userId})
+        if(!user){
+            return res.status(400).json({success: false, error: " no user found"})
+        }
+        const updateUser=await User.findByIdAndUpdate({_id:employee.userId},{name});
+        const updateEmployee=await Employee.findByIdAndUpdate({_id:id},{
+            maritalStatus,
+            designation,salary,department
+        })
+        if(!updateUser||!updateEmployee){
+            return res.status(400).json({success: false, error: "document not found "})
+        }
+        return res.status(200).json({success:true,message:"updated details"});
+    } catch (error) {
+        return res.status(500).json({success: false, error: "update employee server error"})
     }
 }

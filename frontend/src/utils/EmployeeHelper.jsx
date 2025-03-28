@@ -26,7 +26,8 @@ export const columns = [
     {
         name : "DOB",
         selector : (row) => row.dob,
-        width:"130px"
+        width:"130px",
+        sortable: true,
     },
     {
         name : "Action",
@@ -54,16 +55,20 @@ export const fetchDepartments = async () => {
     return departments;
   };
 
-  export const EmployeeButtons = ({id }) => {
+  export const EmployeeButtons = ({id}) => {
     const navigate = useNavigate()
 
    
     return (
         <div className="flex space-x-3">
             <button className="px-3 py-3 bg-blue-600 text-white"
-                onClick={()=>navigate(`/admin-dashboard/department/${id}`)}
+            
+                onClick={()=>navigate(`/admin-dashboard/employees/${id}`)}
             >View</button>
+             <button className="px-3 py-1 bg-yellow-600 text-white"
+            >Salary</button>
             <button className="px-3 py-1 bg-yellow-600 text-white"
+            onClick={()=>navigate(`/admin-dashboard/employees/edit/${id}`)}
             >Edit</button>
             <button className="px-3 py-1 bg-red-600 text-white"
           

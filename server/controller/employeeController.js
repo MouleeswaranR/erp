@@ -22,7 +22,7 @@ export const addEmployee=async(req,res)=>{
             name,email,employeeId,dob,gender,maritalStatus,designation,department,salary,password,role
         }=req.body;
         // console.log(role);
-        console.log(employeeId);
+       
         
         const user=await User.findOne({email})
         

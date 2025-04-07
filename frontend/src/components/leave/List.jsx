@@ -11,7 +11,7 @@ const List = () => {
 
 const fetchLeaves=async()=>{
     try {
-    console.log(id);
+  
     
       const response = await axios.get(`http://localhost:5000/api/leave/${id}`, {
         headers: {

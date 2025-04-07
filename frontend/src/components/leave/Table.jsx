@@ -16,17 +16,18 @@ const Table = () => {
           "Authorization" : `Bearer ${localStorage.getItem('token')}`
         }
       })
-      console.log(response.data.leaves);
+      console.log(response);
+      console.log(response.data.success);
       
       if(response.data.success){
-        console.log(response.data.success);
+        console.log("here");
         
         let sno = 1;
-        const data = await response.data.leaves.map((leave) => (
+        const data =  response.data.leaves.map((leave) => (
           {
             _id: leave._id,
             sno: sno++,
-            employeeId: leave.employeeId.employeeId,
+            employeeId: leave.employeeId.employeeId!==null?leave.employeeId.employeeId:"",
             name:leave.employeeId.userId.name,
             leaveType: leave.leaveType,
             department: leave.employeeId.department.dep_name,
@@ -39,7 +40,7 @@ const Table = () => {
          
           
         ));
-        // console.log(data);
+        console.log(data);
         setLeaves(data);
         setfilteredLeaves(data)
       }
@@ -66,7 +67,7 @@ const Table = () => {
 
   return (
     <>
-    {filteredLeaves ? (
+    {leaves ? (
     <div className='p-6'>
       <div className='text-center'>
         <h3 className='text-2xl font-bold'>Manage Leaves</h3>  

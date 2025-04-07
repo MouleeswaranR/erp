@@ -20,28 +20,36 @@ export const addLeave = async(req ,res ) => {
 
     }
 
- export const getLeave = async (req, res) => {
-        try{
-            const {id} = req.params;
-            console.log(id);
-            
-            let leaves = await Leave.find({employeeId: id})
-            console.log(leaves);
-            
-            if(!leaves || leaves.length===0){
-                const employee = await Employee.findOne({userId: id})
-                leaves = await Leave.find({employeeId: employee._id})
+    export const getLeave = async (req, res) => {
+        try {
+            const { id } = req.params;
+            console.log("User ID:", id);
+    
+            let leaves = await Leave.find({ employeeId: id });
+            console.log("Leaves (direct):", leaves);
+    
+            if (!leaves || leaves.length === 0) {
+                const employee = await Employee.findOne({ userId: id });
+    
+                if (!employee) {
+                    return res.status(404).json({ success: false, message: "Employee not found" });
+                }
+    
+                leaves = await Leave.find({ employeeId: employee._id });
             }
-            return res.status(200).json({success: true, leaves})
-        } catch(error) {
-            console.log(error.message)
-            return res.status(500).json({success: false, error: "leave add server error"})
+    
+            return res.status(200).json({ success: true, leaves });
+        } catch (error) {
+            console.log(error.message);
+            console.log("Error in getLeave");
+    
+            return res.status(500).json({ success: false, error: "leave add server error" });
         }
-    }
-
+    };
+    
 export const getLeaves = async (req, res) => {
         try{
-            console.log("here");
+            
             
             const leaves = await Leave.find().populate({
                 path: "employeeId",
@@ -56,10 +64,16 @@ export const getLeaves = async (req, res) => {
                     }
                 ]
             })
-
+            
+            console.log(leaves);
+            
+            console.log("here");
             return res.status(200).json({success: true, leaves})
         } catch(error) {
+            console.log("error in getleaves");
+
             console.log(error.message)
+
             return res.status(500).json({success: false, error: "leave add server error"})
         }
     }
@@ -84,6 +98,8 @@ export const getLeaveDetail = async (req, res) => {
             return res.status(200).json({success: true, leave})
         } catch(error) {
             console.log(error.message)
+            console.log("error in getleave detail");
+            
             return res.status(500).json({success: false, error: "leave add server error"})
         }
     }

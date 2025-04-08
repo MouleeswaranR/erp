@@ -20,23 +20,42 @@ export const addSalary=async(req,res)=>{
     }
 }
 
-export const getSalary=async(req,res)=>{
+export const getSalary = async(req, res) => {
     try {
-        const {id}=req.params;
-        console.log(id)
+        const {id} = req.params;
+        const userRole = req.user?.role; // Assuming you have role in request object from auth middleware
+        
         let salary;
         
-        
-        salary=await Salary.find({employeeId:id}).populate('employeeId','employeeId')
-        if(!salary || salary.length < 1) {
-            const employee = await Employee.findOne({userId: id})
-            salary = await Salary.find({employeeId: employee._id}).populate('employeeId', 'employeeId')
-            console.log(salary)
+        if (userRole === 'employee') {
+            // Employee flow
+            salary = await Salary.find({employeeId: id})
+                .populate('employeeId', 'employeeId');
+                
+            if (!salary || salary.length < 1) {
+                const employee = await Employee.findOne({userId: id});
+                if (!employee) {
+                    return res.status(404).json({success: false, error: "Employee not found"});
+                }
+                salary = await Salary.find({employeeId: employee._id})
+                    .populate('employeeId', 'employeeId');
+            }
+        } else if (userRole === 'admin') {
+            // Admin flow
+            // Assuming admin wants to see salary by employee ID
+            salary = await Salary.find({employeeId: id})
+                .populate('employeeId', 'employeeId');
+                
+            if (!salary || salary.length < 1) {
+                return res.status(404).json({success: false, error: "No salary records found for this employee"});
+            }
+        } else {
+            return res.status(403).json({success: false, error: "Unauthorized access"});
         }
-        return res.status(200).json({success:true,salary})
+
+        return res.status(200).json({success: true, salary});
     } catch (error) {
         console.log(error.message);
-        
-        return res.status(500).json({success:false,error:"salary not added"})
+        return res.status(500).json({success: false, error: "Internal server error"});
     }
 }

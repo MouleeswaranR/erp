@@ -6,6 +6,7 @@ import { connectToDataBase } from './db/db.js';
 import employeeRouter from "./routes/employee.js"
 import leaveRouter from './routes/leave.js'
 import settingRoute from './routes/setting.js'
+import dashboardRouter from './routes/dashboard.js'
 import SalaryRouter from "./routes/salary.js"
 const app=express();
 app.use(express.static('public/uploads'))
@@ -20,6 +21,8 @@ app.use("/api/employee",employeeRouter)
 app.use("/api/salary",SalaryRouter);
 app.use("/api/leave",leaveRouter);
 app.use("/api/setting",settingRoute);
+app.use("/api/setting",dashboardRouter);
+
 app.listen(process.env.PORT,()=>{
     connectToDataBase();
     console.log(`server running on ${process.env.PORT}`);

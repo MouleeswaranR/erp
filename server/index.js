@@ -21,7 +21,7 @@ app.use("/api/employee",employeeRouter)
 app.use("/api/salary",SalaryRouter);
 app.use("/api/leave",leaveRouter);
 app.use("/api/setting",settingRoute);
-app.use("/api/setting",dashboardRouter);
+app.use("/api/dashboard",dashboardRouter);
 
 app.listen(process.env.PORT,()=>{
     connectToDataBase();

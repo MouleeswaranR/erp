@@ -81,21 +81,31 @@ export const fetchDepartments = async () => {
 
    
     return (
-        <div className="flex space-x-3">
-            <button className="px-3 py-3 bg-blue-600 text-white"
-            
-                onClick={()=>navigate(`/admin-dashboard/employees/${id}`)}
-            >View</button>
-             
-            <button className="px-3 py-1 bg-yellow-600 text-white"
-            onClick={()=>navigate(`/admin-dashboard/employees/edit/${id}`)}
-            >Edit</button>
-            <button className="px-3 py-1 bg-yellow-600 text-white"
-            onClick={()=>navigate(`/admin-dashboard/employees/salary/${id}`)}
-            >Salary</button>
-            <button className="px-3 py-1 bg-red-600 text-white"
-            onClick={() => navigate(`/admin-dashboard/employees/leaves/${id}`)}
-            >Leave</button>
-        </div>
-    )
+      <div className="flex space-x-2 sm:space-x-3 overflow-x-auto">
+        <button
+          className="px-2 py-1 sm:px-4 sm:py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-base rounded-md transition-colors whitespace-nowrap"
+          onClick={() => navigate(`/admin-dashboard/employees/${id}`)}
+        >
+          View
+        </button>
+        <button
+          className="px-2 py-1 sm:px-4 sm:py-2 bg-yellow-600 hover:bg-yellow-700 text-white text-xs sm:text-base rounded-md transition-colors whitespace-nowrap"
+          onClick={() => navigate(`/admin-dashboard/employees/edit/${id}`)}
+        >
+          Edit
+        </button>
+        <button
+          className="px-2 py-1 sm:px-4 sm:py-2 bg-yellow-600 hover:bg-yellow-700 text-white text-xs sm:text-base rounded-md transition-colors whitespace-nowrap"
+          onClick={() => navigate(`/admin-dashboard/employees/salary/${id}`)}
+        >
+          Salary
+        </button>
+        <button
+          className="px-2 py-1 sm:px-4 sm:py-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-base rounded-md transition-colors whitespace-nowrap"
+          onClick={() => navigate(`/admin-dashboard/employees/leaves/${id}`)}
+        >
+          Leave
+        </button>
+      </div>
+    );
 }

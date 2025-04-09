@@ -1,10 +1,12 @@
+import Department from "../models/Department.js";
+import Employee from "../models/Employee.js";
 import Leave from "../models/Leave.js";
 
 export const getSummary = async (req, res) => {
     try{
         const totalEmployees = await Employee.countDocuments();
 
-        const totalDepartments = await Departemen.countDocuments();
+        const totalDepartments = await Department.countDocuments();
 
         const totalSalaries = await Employee.aggregate([
             {$group: {_id: null, totalSalary: {$sum : "$salary"}}}

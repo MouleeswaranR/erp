@@ -1,11 +1,11 @@
-
-import {BrowserRouter,Routes,Route, Navigate} from "react-router-dom";
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import './App.css';
 import Login from './pages/Login';
 import AdminDashBoard from './pages/AdminDashBoard';
 import EmployeeDashBoard from './pages/EmployeeDashBoard';
 import PrivateRoutes from './utils/PrivateRoutes';
 import RoleBasedRoutes from './utils/RoleBasedRoutes';
+import AuthContext, { useAuth } from './context/authContext.jsx'; // Import AuthContext
 import AdminSummary from './components/dashboard/AdminSummary';
 import DepartmentList from './components/department/DepartmentList';
 import AddDepartment from './components/department/AddDepartment';
@@ -16,7 +16,7 @@ import View from "./components/employee/View";
 import Edit from "./components/employee/Edit";
 import Add from "./components/salary/AddSalary";
 import ViewSalary from "./components/salary/ViewSalary";
-import SummaryCard from './components/EmployeeDashBoard/Summary'
+import SummaryCard from './components/EmployeeDashBoard/Summary';
 import List from "./components/leave/List";
 import AddLeave from "./components/leave/AddLeave";
 import Setting from "./components/EmployeeDashBoard/Setting";
@@ -24,62 +24,77 @@ import Table from "./components/leave/Table";
 import Detail from "./components/leave/Detail";
 
 function App() {
-  
-
-   return (
+  return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/admin-dashboard"></Navigate>}></Route>
-        <Route path="/login" element={<Login/>}></Route>
-        <Route path="/admin-dashboard" element={
-          <PrivateRoutes>
-            <RoleBasedRoutes requiredRole={["admin"]}>
-            <AdminDashBoard/>
-            </RoleBasedRoutes>             
-          </PrivateRoutes>
-         
-      
-      }>
-        <Route index element={<AdminSummary/>}></Route>
-        <Route path="/admin-dashboard/departments" element={<DepartmentList/>}></Route>
-        <Route path="/admin-dashboard/add-department" element={<AddDepartment/>}></Route>
-        <Route path="/admin-dashboard/department/:id" element={<EditDepartment/>}></Route>
+      <AuthContext> {/* Wrap everything in AuthContext */}
+        <AppRoutes />
+      </AuthContext>
+    </BrowserRouter>
+  );
+}
 
-        <Route path="/admin-dashboard/employees" element={<EmployeeList/>}></Route>
-        <Route path="/admin-dashboard/add-employee" element={<AddEmployee/>}></Route>
-        <Route path="/admin-dashboard/employees/:id" element={<View/>}></Route>
-        <Route path="/admin-dashboard/employees/edit/:id" element={<Edit/>}></Route>
-        <Route path="/admin-dashboard/employees/salary/:id" element={<ViewSalary/>}></Route>
+function AppRoutes() {
+  const { user, loading } = useAuth();
 
-        <Route path="/admin-dashboard/salary/add" element={<Add />}></Route>
-        <Route path="/admin-dashboard/leaves" element= {<Table />}></Route>
-        <Route path="/admin-dashboard/leaves/:id" element= {<Detail />}></Route>
-        <Route path="/admin-dashboard/employees/leaves/:id" element= {<List />}></Route>
+  if (loading) return null; // Wait for auth verification
 
-        <Route path="/admin-dashboard/setting" element = {<Setting />}></Route>
-
-      </Route>
-        <Route path="/employee-dashboard" 
+  return (
+    <Routes>
+      <Route 
+        path="/" 
         element={
+          user ? (
+            user.role === "admin" ? (
+              <Navigate to="/admin-dashboard" />
+            ) : (
+              <Navigate to="/employee-dashboard" />
+            )
+          ) : (
+            <Navigate to="/login" />
+          )
+        } 
+      />
+      <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
+
+      <Route path="/admin-dashboard" element={
+        <PrivateRoutes>
+          <RoleBasedRoutes requiredRole={["admin"]}>
+            <AdminDashBoard />
+          </RoleBasedRoutes>             
+        </PrivateRoutes>
+      }>
+        <Route index element={<AdminSummary />} />
+        <Route path="departments" element={<DepartmentList />} />
+        <Route path="add-department" element={<AddDepartment />} />
+        <Route path="department/:id" element={<EditDepartment />} />
+        <Route path="employees" element={<EmployeeList />} />
+        <Route path="add-employee" element={<AddEmployee />} />
+        <Route path="employees/:id" element={<View />} />
+        <Route path="employees/edit/:id" element={<Edit />} />
+        <Route path="employees/salary/:id" element={<ViewSalary />} />
+        <Route path="salary/add" element={<Add />} />
+        <Route path="leaves" element={<Table />} />
+        <Route path="leaves/:id" element={<Detail />} />
+        <Route path="employees/leaves/:id" element={<List />} />
+        <Route path="setting" element={<Setting />} />
+      </Route>
+
+      <Route path="/employee-dashboard" element={
         <PrivateRoutes>
           <RoleBasedRoutes requiredRole={["admin", "employee"]}>
             <EmployeeDashBoard />
           </RoleBasedRoutes>
         </PrivateRoutes>
-        }
-        >
-          <Route index element={<SummaryCard/>}></Route>
- 
-          <Route path="/employee-dashboard/profile/:id" element = {<View />}></Route>
-          <Route path="/employee-dashboard/leaves/:id" element = {<List />}></Route>
-          <Route path="/employee-dashboard/add-leave" element = {<AddLeave />}></Route>
-          <Route path="/employee-dashboard/salary/:id" element = {<ViewSalary />}></Route>
-          <Route path="/employee-dashboard/setting/:id" element = {<Setting />}></Route>
-
-        </Route>
-      </Routes>
-    </BrowserRouter>
-    );
+      }>
+        <Route index element={<SummaryCard />} />
+        <Route path="profile/:id" element={<View />} />
+        <Route path="leaves/:id" element={<List />} />
+        <Route path="add-leave" element={<AddLeave />} />
+        <Route path="salary/:id" element={<ViewSalary />} />
+        <Route path="setting/:id" element={<Setting />} />
+      </Route>
+    </Routes>
+  );
 }
 
-export default App
+export default App;

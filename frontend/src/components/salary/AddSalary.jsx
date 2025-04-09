@@ -14,7 +14,6 @@ const Add = () => {
     const [departments, setDepartments] = useState([]);
     const [employees, setEmployees] = useState([]);
     const navigate = useNavigate();
-    
 
     useEffect(() => {
         const getDepartments = async () => {
@@ -23,8 +22,6 @@ const Add = () => {
         };
         getDepartments();
     }, []);
-
-    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -49,110 +46,129 @@ const Add = () => {
             }
         }
     };
-    const handleDepartment=async(e)=>{
-        const emp=await getEmployees(e.target.value);
-         setEmployees(emp)   
-    }
+
+    const handleDepartment = async (e) => {
+        const emp = await getEmployees(e.target.value);
+        setEmployees(emp);
+    };
 
     return (
-        <>
-            {departments  ? (
-                <div className='max-w-4xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md'>
-                    <h2 className='text-2xl font-bold mb-6'>Add Salary</h2>
-                    <form onSubmit={handleSubmit}>
-                        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                        <div >
-                                <label className='block text-sm font-medium text-gray-700'>Department</label>
+        <div className="container mx-auto px-4 py-8 min-h-screen">
+            {departments ? (
+                <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-lg shadow-lg">
+                    <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-gray-800">
+                        Add Salary
+                    </h2>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Department
+                                </label>
                                 <select
                                     name="department"
-                                    
-                                    className='mt-1 p-2 block w-full border border-gray-300 rounded-md'
+                                    className="w-full p-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
                                     required
                                     onChange={handleDepartment}
                                 >
                                     <option value="">Select Department</option>
                                     {departments.map(dep => (
-                                        <option key={dep._id} value={dep._id}>{dep.dep_name}</option>
+                                        <option key={dep._id} value={dep._id}>
+                                            {dep.dep_name}
+                                        </option>
                                     ))}
                                 </select>
                             </div>
-                            <div >
-                                <label className='block text-sm font-medium text-gray-700'>Employee</label>
+
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Employee
+                                </label>
                                 <select
                                     name="employeeId"
-                                    
-                                    className='mt-1 p-2 block w-full border border-gray-300 rounded-md'
+                                    className="w-full p-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
                                     required
                                     onChange={handleChange}
                                 >
                                     <option value="">Select Employee</option>
                                     {employees.map(emp => (
-                                        <option key={emp._id} value={emp._id}>{emp.employeeId}</option>
+                                        <option key={emp._id} value={emp._id}>
+                                            {emp.employeeId}
+                                        </option>
                                     ))}
                                 </select>
                             </div>
-                            
-                            <div>
-                                <label className='block text-sm font-medium text-gray-700'>Basic Salary</label>
+
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Basic Salary
+                                </label>
                                 <input
                                     type="number"
                                     name="basicSalary"
-                                    placeholder='Basic Salary'
-                                    className='mt-1 p-2 block w-full border border-gray-300 rounded-md'
+                                    placeholder="Basic Salary"
+                                    className="w-full p-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
                                     required
                                     onChange={handleChange}
-                                    
                                 />
                             </div>
-                            <div>
-                                <label className='block text-sm font-medium text-gray-700'>Allowances</label>
+
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Allowances
+                                </label>
                                 <input
                                     type="number"
                                     name="allowances"
-                                    onChange={handleChange}
-                                    placeholder='Salary'
-                                    className='mt-1 p-2 block w-full border border-gray-300 rounded-md'
+                                    placeholder="Allowances"
+                                    className="w-full p-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
                                     required
-                                    
+                                    onChange={handleChange}
                                 />
                             </div>
-                            <div>
-                                <label className='block text-sm font-medium text-gray-700'>Deductions</label>
+
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Deductions
+                                </label>
                                 <input
                                     type="number"
                                     name="deductions"
-                                    onChange={handleChange}
-                                    placeholder='Deductions'
-                                    className='mt-1 p-2 block w-full border border-gray-300 rounded-md'
+                                    placeholder="Deductions"
+                                    className="w-full p-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
                                     required
-                                    
+                                    onChange={handleChange}
                                 />
                             </div>
-                            <div>
-                                <label className='block text-sm font-medium text-gray-700'>Pay Date</label>
+
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Pay Date
+                                </label>
                                 <input
                                     type="date"
                                     name="payDate"
-                                    onChange={handleChange}
-                                    placeholder='Pay Date'
-                                    className='mt-1 p-2 block w-full border border-gray-300 rounded-md'
+                                    className="w-full p-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
                                     required
-                                    
+                                    onChange={handleChange}
                                 />
                             </div>
-                          
                         </div>
+
                         <button
-                            className='w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded'
+                            type="submit"
+                            className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-md transition-colors duration-200 shadow-md hover:shadow-lg"
                         >
-                           Add Salary
+                            Add Salary
                         </button>
                     </form>
                 </div>
             ) : (
-                <div>Loading...</div>
+                <div className="text-center py-10 text-gray-600">
+                    Loading...
+                </div>
             )}
-        </>
+        </div>
     );
 };
 

@@ -6,19 +6,24 @@ import Navbar from '../components/dashboard/Navbar';
 import AdminSummary from '../components/dashboard/AdminSummary';
 
 const AdminDashBoard = () => {
-   const {user}= useAuth();
+  
 //    console.log(user);
 
    
-  return (
-    <div className='flex'>
+return (
+  <div className='flex'>
+    {/* Hide sidebar on mobile (sm and below), show on md and up */}
+    <div className='hidden md:block'>
       <AdminSidebar/>
-      <div className='flex-1 ml-64 bg-gray-100 h-screen'>
-        <Navbar/>
-        <Outlet/>
-      </div>
     </div>
-  )
+    {/* Adjust margin-left to 0 on mobile, 64 on md and up */}
+    <div className='flex-1 ml-0 md:ml-64 bg-gray-100 h-screen'>
+      <Navbar/>
+      <Outlet/>
+    </div>
+  </div>
+)
+  
 }
 
 export default AdminDashBoard

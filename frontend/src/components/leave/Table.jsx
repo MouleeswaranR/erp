@@ -67,10 +67,10 @@ const Table = () => {
 
   return (
     <>
-    {leaves ? (
-    <div className='p-6'>
+    {filteredLeaves ? (
+    <div className='p-6 '>
       <div className='text-center'>
-        <h3 className='text-2xl font-bold'>Manage Leaves</h3>  
+        <h3 className='text-2xl font-bold mt-5'>Manage Leaves</h3>  
 
         </div>
         <div className='flex justify-between items-center'>

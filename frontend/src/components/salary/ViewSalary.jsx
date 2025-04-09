@@ -6,7 +6,7 @@ const ViewSalary = () => {
   const [salaries, setSalaries] = useState(null);
   const [filteredSalaries, setFilteredSalaries] = useState(null); // Fixed typo: setFilteredSalries -> setFilteredSalaries
   const { id } = useParams();
-  let sno = 1;
+  
 
   const fetchSalaries = async () => {
     try {
@@ -50,58 +50,68 @@ const ViewSalary = () => {
   };
 
   return (
-    <>
+    <div className="container mx-auto px-4 py-8 min-h-screen">
       {filteredSalaries === null ? (
-        <div>Loading ...</div>
+        <div className="text-center py-10 text-gray-600">Loading...</div>
       ) : (
-        <div className="overflow-x-auto p-5">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold">Salary History</h2>
+        <div className="overflow-x-auto">
+          <div className="text-center mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mt-4">
+              Salary History
+            </h2>
           </div>
-          <div className="flex justify-end my-3">
+  
+          <div className="flex justify-end mb-6">
             <input
               type="text"
               placeholder="Search By Employee Id"
-              className="border px-2 rounded-md py-0.5 border-gray-500"
+              className="w-full sm:w-64 px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
               onChange={filterSalaries}
             />
           </div>
+  
           {filteredSalaries.length > 0 ? (
-            <table className="w-full text-sm text-left text-gray-500">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 border border-gray-200">
-                <tr>
-                  <th className="px-6 py-3">SNO</th>
-                  <th className="px-6 py-3">Emp ID</th>
-                  <th className="px-6 py-3">Salary</th>
-                  <th className="px-6 py-3">Allowances</th>
-                  <th className="px-6 py-3">Deduction</th>
-                  <th className="px-6 py-3">Total</th>
-                  <th className="px-6 py-3">Pay Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredSalaries.map((salary) => (
-                  <tr
-                    key={salary._id} // Use _id instead of id (assuming MongoDB)
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                  >
-                    <td className="px-6 py-3">{sno++}</td>
-                    <td className="px-6 py-3">{salary.employeeId.employeeId}</td>
-                    <td className="px-6 py-3">{salary.basicSalary}</td>
-                    <td className="px-6 py-3">{salary.allowances}</td>
-                    <td className="px-6 py-3">{salary.deductions}</td>
-                    <td className="px-6 py-3">{salary.netSalary}</td>
-                    <td className="px-6 py-3">{new Date(salary.payDate).toLocaleDateString()}</td>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left text-gray-500 border-collapse">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                  <tr className="border-b">
+                    <th className="px-4 py-3 sm:px-6">SNO</th>
+                    <th className="px-4 py-3 sm:px-6">Emp ID</th>
+                    <th className="px-4 py-3 sm:px-6">Salary</th>
+                    <th className="px-4 py-3 sm:px-6">Allowances</th>
+                    <th className="px-4 py-3 sm:px-6">Deduction</th>
+                    <th className="px-4 py-3 sm:px-6">Total</th>
+                    <th className="px-4 py-3 sm:px-6">Pay Date</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {filteredSalaries.map((salary, index) => (
+                    <tr
+                      key={salary._id}
+                      className="bg-white border-b hover:bg-gray-50 transition-colors"
+                    >
+                      <td className="px-4 py-3 sm:px-6">{index + 1}</td>
+                      <td className="px-4 py-3 sm:px-6">
+                        {salary.employeeId.employeeId}
+                      </td>
+                      <td className="px-4 py-3 sm:px-6">{salary.basicSalary}</td>
+                      <td className="px-4 py-3 sm:px-6">{salary.allowances}</td>
+                      <td className="px-4 py-3 sm:px-6">{salary.deductions}</td>
+                      <td className="px-4 py-3 sm:px-6">{salary.netSalary}</td>
+                      <td className="px-4 py-3 sm:px-6">
+                        {new Date(salary.payDate).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           ) : (
-            <div>No Records</div>
+            <div className="text-center py-10 text-gray-600">No Records Found</div>
           )}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

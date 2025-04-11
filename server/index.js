@@ -6,8 +6,10 @@ import { connectToDataBase } from './db/db.js';
 import employeeRouter from "./routes/employee.js"
 import leaveRouter from './routes/leave.js'
 import settingRoute from './routes/setting.js'
+import attendanceRoute from './routes/attendance.js'
 import dashboardRouter from './routes/dashboard.js'
 import SalaryRouter from "./routes/salary.js"
+
 const app=express();
 app.use(express.static('public/uploads'))
 app.use(cors({

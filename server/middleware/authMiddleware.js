@@ -23,6 +23,8 @@ export const authMiddleware=async(req,res,next)=>{
     } catch (error) {
         console.log("error in auth middleware"+ error.message);
         
+        return res.status(500).json({success:false,error:error.message})
     }
-    
+
 }
+export default authMiddleware

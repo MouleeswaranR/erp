@@ -26,12 +26,20 @@ className={({isActive})=>`${isActive?"bg-teal-500":" "} flex items-center space-
            <FaBuilding/>
            <span>Leaves</span>
         </NavLink>
+
         <NavLink to={`/employee-dashboard/salary/${user._id}`}
          className={({isActive})=>`${isActive?"bg-teal-500":" "} flex items-center space-x-4  py-2.5 px-4 rounded`}
          >
            <FaCalendarAlt/>
            <span>Salary</span>
         </NavLink>
+        <NavLink to={`/employee-dashboard/attendance/${user._id}`}
+         className={({isActive})=>`${isActive?"bg-teal-500":" "} flex items-center space-x-4  py-2.5 px-4 rounded`}
+         >
+           <FaRegCalendarAlt/>
+           <span>Attendance</span>
+        </NavLink>
+
         <NavLink to="/employee-dashboard/setting/id"
          className={({isActive})=>`${isActive?"bg-teal-500":" "} flex items-center space-x-4  py-2.5 px-4 rounded`}
         >
